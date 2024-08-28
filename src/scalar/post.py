@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-28 21:43:35
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 01:30:00
+LastEditTime: 2024-08-29 01:49:10
 FilePath: /cryptodata_apollographql/src/scalar/post.py
 Description: 
 '''
@@ -18,8 +18,8 @@ class Post:
     id: int
     title: typing.Optional[str] = ""
     description: typing.Optional[str] = ""
-    created_at : typing.Optional[int] = 0
-    # created_at : typing.Optional[int] = Field(default_factory=datetime.now)
+    created_at : typing.Optional[int] = None
+    # created_at : typing.Optional[datetime] = Field(default_factory=datetime.now)
 
 @strawberry.type
 class PostNotFound:
