@@ -4,13 +4,16 @@
 Author: Zella Zhong
 Date: 2024-08-28 21:32:19
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 00:37:22
+LastEditTime: 2024-08-29 02:21:08
 FilePath: /cryptodata_apollographql/src/utils/utils.py
 Description: 
 '''
+import re
+import copy
 import logging
 from sqlalchemy.inspection import inspect
-import re
+from eth_utils import encode_hex, keccak
+
 
 def convert_camel_case(name):
     pattern = re.compile(r'(?<!^)(?=[A-Z])')
@@ -31,3 +34,14 @@ def check_valid_data(model_data_object, model_class):
         except:
             pass
     return data_dict
+
+def compute_namehash_nowrapped(name):
+    node = b'\x00' * 32  # 32 bytes of zeroes (initial nodehash for the root)
+    self_node = ""
+    items = name.split('.')
+    for item in reversed(items):
+        label_hash = keccak(item.encode('utf-8'))
+        node = keccak(node + label_hash)  # keccak256 of node + label_hash
+        self_node = node
+
+    return encode_hex(self_node)
