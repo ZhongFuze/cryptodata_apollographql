@@ -1,0 +1,6 @@
+.vscode
+venv
+log
+data
+src/config/*.toml
+!src/config/main.sample.toml
