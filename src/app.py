@@ -13,6 +13,9 @@ import uvicorn
 import logging
 import strawberry
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI
 from strawberry.fastapi import GraphQLRouter
 from strawberry.schema.config import StrawberryConfig
