@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-28 19:11:06
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-28 21:19:12
+LastEditTime: 2024-08-29 00:13:13
 FilePath: /cryptodata_apollographql/src/session/session.py
 Description: 
 '''
@@ -15,7 +15,7 @@ from sqlalchemy.orm import sessionmaker
 
 import setting
 
-engine = create_async_engine(setting.PG_DSN["cryptodata"])
+engine = create_async_engine(setting.PG_DSN["async_cryptodata"])
 
 async_session = sessionmaker(
     bind=engine,
