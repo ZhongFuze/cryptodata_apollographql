@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-29 02:00:40
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 16:35:26
+LastEditTime: 2024-08-29 17:58:48
 FilePath: /cryptodata_apollographql/src/model/basename.py
 Description: 
 '''
@@ -30,7 +30,10 @@ class DatetimeToTimestamp(TypeDecorator):
 
     def process_result_value(self, value, dialect=None):
         if value is not None:
-            return int(value.timestamp())
+            unix_timestamp = int(value.timestamp())
+            if unix_timestamp <= 0:
+                return None
+            return unix_timestamp
         else:
             return None
 

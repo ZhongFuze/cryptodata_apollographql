@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-28 21:32:19
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 17:41:14
+LastEditTime: 2024-08-29 18:11:00
 FilePath: /cryptodata_apollographql/src/utils/utils.py
 Description: 
 '''
@@ -21,9 +21,10 @@ def convert_camel_case(name):
     return name
 
 def get_only_selected_fields(db_baseclass_name, info):
-    db_relations_fields = inspect(db_baseclass_name).relationships.keys()
-    selected_fields = [convert_camel_case(field.name)  for field in info.selected_fields[0].selections if field.name not in db_relations_fields]
-    selected_fields = [getattr(db_baseclass_name, f) for f in selected_fields]
+    attr_names = [c_attr.key for c_attr in inspect(db_baseclass_name).mapper.column_attrs]
+    selected_fields = [convert_camel_case(field.name) for field in info.selected_fields[0].selections]
+    filter_selected_fields = list(set(attr_names) & set(selected_fields))
+    selected_fields = [getattr(db_baseclass_name, f) for f in filter_selected_fields]
     return selected_fields
 
 def check_valid_data(model_data_object, model_class):
