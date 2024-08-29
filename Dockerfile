@@ -16,5 +16,5 @@ COPY supervisord.conf .
 
 COPY .env.example .env
 
-EXPOSE 5001
+EXPOSE 5000
 ENTRYPOINT ["./run.sh"]
