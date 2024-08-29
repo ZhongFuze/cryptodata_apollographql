@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-29 02:00:40
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 18:40:52
+LastEditTime: 2024-08-29 21:15:54
 FilePath: /cryptodata_apollographql/src/model/basename.py
 Description: 
 '''
@@ -44,7 +44,7 @@ class BasenameModel(Base):
     namenode: str = Column(String, unique=True, index=True)
     name: str = Column(String, index=True, nullable=True)
     label: str = Column(String, nullable=True)
-    token_id: str = Column(String, nullable=True)
+    erc721_token_id: str = Column(String, nullable=True)
     parent_node: str = Column(String, nullable=True)
 
     owner: str = Column(String, index=True, nullable=True)
@@ -67,7 +67,7 @@ class BasenameModel(Base):
             "namenode": self.namenode,
             "name": self.name,
             "label": self.label,
-            "token_id": self.token_id,
+            "erc721_token_id": self.erc721_token_id,
             "parent_node": self.parent_node,
             "registration_time": self.registration_time,
             "expire_time": self.expire_time,
