@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-28 19:02:56
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 19:48:10
+LastEditTime: 2024-08-29 23:20:43
 FilePath: /cryptodata_apollographql/src/app.py
 Description: 
 '''
@@ -16,6 +16,7 @@ import strawberry
 from dotenv import load_dotenv
 load_dotenv()
 
+from datetime import datetime, timezone
 from fastapi import FastAPI
 from strawberry.fastapi import GraphQLRouter
 from strawberry.schema.config import StrawberryConfig
@@ -25,15 +26,18 @@ import setting
 import setting.filelogger as logger
 from schema import Query, Mutation
 from scalar.error import should_mask_error
+from scalar.common import BigInt, EpochDateTime
 
 schema = strawberry.Schema(
     query=Query,
     config=StrawberryConfig(
         auto_camel_case=True
     ),
+    scalar_overrides={datetime: EpochDateTime, int: BigInt},
     extensions=[
         MaskErrors(should_mask_error=should_mask_error),
     ],
+    
 )
 
 

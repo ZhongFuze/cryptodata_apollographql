@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-29 02:00:40
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 21:15:54
+LastEditTime: 2024-08-29 23:22:11
 FilePath: /cryptodata_apollographql/src/model/basename.py
 Description: 
 '''
@@ -53,10 +53,14 @@ class BasenameModel(Base):
     reverse_address: str = Column(String, index=True, nullable=True)
     is_primary: bool = Column(Boolean)
 
-    registration_time: int = Column(DatetimeToTimestamp, nullable=True)
-    expire_time: int = Column(DatetimeToTimestamp, nullable=True)
-    grace_period_ends: int = Column(DatetimeToTimestamp, nullable=True)
-    update_time: int = Column(DatetimeToTimestamp, nullable=True)
+    # registration_time: int = Column(DatetimeToTimestamp, nullable=True)
+    # expire_time: int = Column(DatetimeToTimestamp, nullable=True)
+    # grace_period_ends: int = Column(DatetimeToTimestamp, nullable=True)
+    # update_time: int = Column(DatetimeToTimestamp, nullable=True)
+    registration_time: DateTime = Column(DateTime, nullable=False)
+    expire_time: DateTime = Column(DateTime, nullable=False)
+    grace_period_ends: DateTime = Column(DateTime, nullable=False)
+    update_time: DateTime = Column(DateTime, nullable=False)
 
     resolved_records: dict = Column(JSON, nullable=True)
     contenthash: str = Column(String, nullable=True)

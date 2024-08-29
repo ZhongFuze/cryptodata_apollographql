@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from sqlalchemy import select, update
+from sqlalchemy import select, update, and_, or_
 from sqlalchemy.orm import load_only
 from urllib.parse import unquote
 
@@ -20,7 +20,7 @@ async def query_basenames_by_name(info, name):
     selected_fields = get_only_selected_fields(BasenameModel, info)
     async with get_session() as s:
         sql = select(BasenameModel).options(load_only(*selected_fields)) \
-            .filter(BasenameModel.namenode == query_namenode)\
+            .filter(and_(BasenameModel.namenode == query_namenode, BasenameModel.name.is_not(None)))\
             .order_by(BasenameModel.id)
         db_lists = (await s.execute(sql)).scalars().unique().all()
 
@@ -42,8 +42,12 @@ async def query_basenames_by_owner(info, addr):
     selected_fields = get_only_selected_fields(BasenameModel, info)
     async with get_session() as s:
         sql = select(BasenameModel).options(load_only(*selected_fields)) \
-            .filter(BasenameModel.owner == addr and BasenameModel.name.is_not(None))\
+            .filter(and_(BasenameModel.owner == addr, BasenameModel.name.is_not(None)))\
             .order_by(BasenameModel.id)
+        # sql = select(BasenameModel).options(load_only(*selected_fields)) \
+        #     .filter(BasenameModel.owner == addr) \
+        #     .filter(BasenameModel.name.is_not(None)) \
+        #     .order_by(BasenameModel.id)
         db_lists = (await s.execute(sql)).scalars().unique().all()
 
     domains = []
