@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-29 23:16:15
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 23:19:55
+LastEditTime: 2024-08-30 00:17:31
 FilePath: /cryptodata_apollographql/src/scalar/common.py
 Description: 
 '''
@@ -15,6 +15,8 @@ from datetime import datetime, timezone
 # Define your custom scalar
 EpochDateTime = strawberry.scalar(
     datetime,
+    name="datetime",
+    description="epoch datetime",
     serialize=lambda value: int(value.timestamp()),
     parse_value=lambda value: datetime.fromtimestamp(int(value), timezone.utc),
 )
