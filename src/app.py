@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-28 19:02:56
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 00:26:00
+LastEditTime: 2024-08-29 17:09:12
 FilePath: /cryptodata_apollographql/src/app.py
 Description: 
 '''
@@ -19,17 +19,21 @@ load_dotenv()
 from fastapi import FastAPI
 from strawberry.fastapi import GraphQLRouter
 from strawberry.schema.config import StrawberryConfig
+from strawberry.extensions import MaskErrors
 
 import setting
 import setting.filelogger as logger
 from schema import Query, Mutation
+from scalar.error import should_mask_error
 
 schema = strawberry.Schema(
     query=Query,
-    mutation=Mutation,
     config=StrawberryConfig(
         auto_camel_case=True
-    )
+    ),
+    extensions=[
+        MaskErrors(should_mask_error=should_mask_error),
+    ],
 )
 
 
@@ -37,10 +41,6 @@ def create_app():
     app = FastAPI()
     graphql_app = GraphQLRouter(schema)
     app.include_router(graphql_app, prefix="/graphql")
-    @app.get("/")
-    async def hello_world():
-        logging.info("Hello World")
-        return {"message": "Hello World"}
     return app
 
 

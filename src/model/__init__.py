@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-28 21:15:34
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 02:32:49
+LastEditTime: 2024-08-29 16:35:32
 FilePath: /cryptodata_apollographql/src/model/__init__.py
 Description: 
 '''
@@ -19,7 +19,7 @@ from sqlalchemy.types import TypeDecorator
 Base = declarative_base()
 
 from .post import Post
-from .basename import Basename
+from .basename import BasenameModel
 
 
 class UnixToDatetime(TypeDecorator):

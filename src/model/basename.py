@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-29 02:00:40
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 02:42:43
+LastEditTime: 2024-08-29 16:35:26
 FilePath: /cryptodata_apollographql/src/model/basename.py
 Description: 
 '''
@@ -34,7 +34,7 @@ class DatetimeToTimestamp(TypeDecorator):
         else:
             return None
 
-class Basename(Base):
+class BasenameModel(Base):
     """Post"""
     __tablename__ = "basenames"
     id: int = Column(Integer, primary_key=True, index=True)
