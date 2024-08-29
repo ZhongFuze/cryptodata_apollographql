@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-29 01:39:58
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 18:35:14
+LastEditTime: 2024-08-29 21:03:11
 FilePath: /cryptodata_apollographql/src/scalar/domain.py
 Description: 
 '''
@@ -31,7 +31,8 @@ class Domain:
     expire_time: typing.Optional[int] = None
     is_wrapped: bool = False
     fuses: typing.Optional[int] = 0
-    grace_period_ends: strawberry.Private[typing.Optional[int]]
+    # grace_period_ends: typing.Optional[int] = None
+    grace_period_ends: strawberry.Private[typing.Optional[int]] = None
     owner: typing.Optional[str] = None
     resolver: typing.Optional[str] = None
     resolved_address: typing.Optional[str] = None
