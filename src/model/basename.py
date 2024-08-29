@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-29 02:00:40
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 17:58:48
+LastEditTime: 2024-08-29 18:40:52
 FilePath: /cryptodata_apollographql/src/model/basename.py
 Description: 
 '''
@@ -55,6 +55,7 @@ class BasenameModel(Base):
 
     registration_time: int = Column(DatetimeToTimestamp, nullable=True)
     expire_time: int = Column(DatetimeToTimestamp, nullable=True)
+    grace_period_ends: int = Column(DatetimeToTimestamp, nullable=True)
     update_time: int = Column(DatetimeToTimestamp, nullable=True)
 
     resolved_records: dict = Column(JSON, nullable=True)
@@ -70,6 +71,7 @@ class BasenameModel(Base):
             "parent_node": self.parent_node,
             "registration_time": self.registration_time,
             "expire_time": self.expire_time,
+            "grace_period_ends": self.grace_period_ends,
             "owner": self.owner,
             "resolver": self.resolver,
             "resolved_address": self.resolved_address,

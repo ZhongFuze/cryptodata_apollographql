@@ -27,6 +27,10 @@ async def query_basenames_by_name(info, name):
     domains = []
     for d in db_lists:
         basename_dict = check_valid_data(d, BasenameModel)
+        if "key_value" in basename_dict:
+            if basename_dict["key_value"] is not None:
+                for key, text in basename_dict["key_value"].items():
+                    basename_dict["key_value"][key] = unquote(text, 'utf-8')
         domains.append(Domain(**basename_dict))
 
     return domains
@@ -45,6 +49,10 @@ async def query_basenames_by_owner(info, addr):
     domains = []
     for d in db_lists:
         basename_dict = check_valid_data(d, BasenameModel)
+        if "key_value" in basename_dict:
+            if basename_dict["key_value"] is not None:
+                for key, text in basename_dict["key_value"].items():
+                    basename_dict["key_value"][key] = unquote(text, 'utf-8')
         domains.append(Domain(**basename_dict))
 
     return domains

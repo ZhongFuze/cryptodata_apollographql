@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-28 21:32:19
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 18:11:00
+LastEditTime: 2024-08-29 18:42:52
 FilePath: /cryptodata_apollographql/src/utils/utils.py
 Description: 
 '''
@@ -24,6 +24,9 @@ def get_only_selected_fields(db_baseclass_name, info):
     attr_names = [c_attr.key for c_attr in inspect(db_baseclass_name).mapper.column_attrs]
     selected_fields = [convert_camel_case(field.name) for field in info.selected_fields[0].selections]
     filter_selected_fields = list(set(attr_names) & set(selected_fields))
+    # print("attr_names", attr_names)
+    # print("selected_fields", selected_fields)
+    # print("filter_selected_fields", filter_selected_fields)
     selected_fields = [getattr(db_baseclass_name, f) for f in filter_selected_fields]
     return selected_fields
 

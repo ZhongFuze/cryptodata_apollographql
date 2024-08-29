@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-29 01:39:58
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 17:13:39
+LastEditTime: 2024-08-29 18:35:14
 FilePath: /cryptodata_apollographql/src/scalar/domain.py
 Description: 
 '''
@@ -13,6 +13,9 @@ import strawberry
 from datetime import datetime
 from pydantic import Field, typing
 from strawberry.scalars import JSON
+
+
+DEFAULT_GRACE_PERIOD = 90 * 24 * 3600 # days
 
 
 @strawberry.type
@@ -28,7 +31,7 @@ class Domain:
     expire_time: typing.Optional[int] = None
     is_wrapped: bool = False
     fuses: typing.Optional[int] = 0
-    grace_period_ends: typing.Optional[int] = None
+    grace_period_ends: strawberry.Private[typing.Optional[int]]
     owner: typing.Optional[str] = None
     resolver: typing.Optional[str] = None
     resolved_address: typing.Optional[str] = None
@@ -39,3 +42,12 @@ class Domain:
     resolved_records: typing.Optional[JSON] = None
     key_value: typing.Optional[JSON] = None
 
+    @strawberry.field(name="gracePeriodEnds")
+    def grace_period_ended(self) -> typing.Optional[int]:
+        if self.expire_time is None:
+            return None
+        else:
+            if self.grace_period_ends is None:
+                return self.expire_time + DEFAULT_GRACE_PERIOD
+            else:
+                return self.grace_period_ends
