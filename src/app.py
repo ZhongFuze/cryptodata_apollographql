@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-28 19:02:56
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 17:09:12
+LastEditTime: 2024-08-29 19:48:10
 FilePath: /cryptodata_apollographql/src/app.py
 Description: 
 '''
@@ -59,7 +59,12 @@ if __name__ == "__main__":
         os.makedirs(config["server"]["log_path"])
 
     worker_number = config["server"]["process_count"]
+    host = config["server"]["ip"]
+    port = config["server"]["port"]
     logger.InitLogger(config)
-    logging.info(f"Starting server {worker_number} process ...")
-    # uvicorn.run("app:application", host="127.0.0.1", port=5000, workers=worker_number, log_level=logging.INFO)
-    uvicorn.run("app:application", host="127.0.0.1", port=5000, reload=True, log_level=logging.INFO)
+    logging.info(f"Starting server http://{host}:{port}/graphql {worker_number} process ...")
+    if setting.Settings["env"] == "development":
+        # Debug mode reload file changed
+        uvicorn.run("app:application", host=host, port=port, reload=True, log_level=logging.INFO)
+    else:
+        uvicorn.run("app:application", host=host, port=port, workers=worker_number, log_level=logging.ERROR)

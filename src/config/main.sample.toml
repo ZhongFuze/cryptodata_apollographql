@@ -1,7 +1,7 @@
 [server]
 server_name = "cryptodata_apollographql"
 ip = "127.0.0.1"
-port = 3722
+port = 5001
 work_path = "/app"
 process_count = 4
 log_path = "/app/log"
