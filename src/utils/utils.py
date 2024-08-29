@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-28 21:32:19
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 02:21:08
+LastEditTime: 2024-08-29 17:41:14
 FilePath: /cryptodata_apollographql/src/utils/utils.py
 Description: 
 '''
@@ -12,7 +12,7 @@ import re
 import copy
 import logging
 from sqlalchemy.inspection import inspect
-from eth_utils import encode_hex, keccak
+from eth_utils import encode_hex, keccak, is_address
 
 
 def convert_camel_case(name):
@@ -45,3 +45,10 @@ def compute_namehash_nowrapped(name):
         self_node = node
 
     return encode_hex(self_node)
+
+def check_evm_address(addr):
+    if is_address(addr):
+        return True
+
+    return False
+    

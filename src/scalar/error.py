@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-29 17:05:41
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 17:17:15
+LastEditTime: 2024-08-29 17:55:21
 FilePath: /cryptodata_apollographql/src/scalar/error.py
 Description: 
 '''
@@ -27,6 +27,10 @@ class DomainNotFound(Exception):
     def __init__(self, name):
         self.message = "Couldn't find domain by given name " + "[" + name + "]"
 
+class EvmAddressInvalid(Exception):
+    def __init__(self, addr):
+        self.message = "Given evm address is invalid " + "[" + addr + "]"
+
 
 def should_mask_error(error: GraphQLError) -> bool:
     original_error = error.original_error
@@ -37,6 +41,8 @@ def should_mask_error(error: GraphQLError) -> bool:
     if original_error and isinstance(original_error, DomainInvalid):
         return False
     if original_error and isinstance(original_error, DomainNotFound):
+        return False
+    if original_error and isinstance(original_error, EvmAddressInvalid):
         return False
 
     return True

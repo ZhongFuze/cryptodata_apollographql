@@ -4,7 +4,7 @@
 Author: Zella Zhong
 Date: 2024-08-28 22:21:45
 LastEditors: Zella Zhong
-LastEditTime: 2024-08-29 17:32:22
+LastEditTime: 2024-08-29 17:53:55
 FilePath: /cryptodata_apollographql/src/schema/query.py
 Description: 
 '''
@@ -18,14 +18,15 @@ from strawberry.types import Info
 from scalar import Domain
 from scalar.error import PlatformNotSupport
 from resolver import basename_domain_query
+from resolver.basename import query_basenames_by_owner, query_basenames_by_name
 
 T = TypeVar("T")
 
 @strawberry.input
 class AbelFilter(Generic[T]):
     eq: Optional[T] = None
-    gt: Optional[T] = None
-    lt: Optional[T] = None
+    # gt: Optional[T] = None
+    # lt: Optional[T] = None
 
 
 @strawberry.input
@@ -33,7 +34,6 @@ class WhereFilter:
     # bar: Optional[AbelFilter[int]] = None
     name: Optional[AbelFilter[str]] = None
     owner: Optional[AbelFilter[str]] = None
-
 
 @strawberry.type
 class Query:
@@ -48,6 +48,15 @@ class Query:
             return PlatformNotSupport(platform)
 
     @strawberry.field
-    async def domains(self, info: Info, where: WhereFilter) -> str:
-        
-        return str(where)
+    async def domains(self, info: Info, platform: str, where: WhereFilter) -> List[Domain]:
+        if platform == "basenames":
+            if where.name is not None:
+                name = where.name.eq
+                domains = await query_basenames_by_name(info, name)
+                return domains
+            elif where.owner is not None:
+                owner = where.owner.eq
+                domains = await query_basenames_by_owner(info, owner)
+                return domains
+        else:
+            return PlatformNotSupport(platform)
